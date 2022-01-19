@@ -20,7 +20,7 @@ if gpus:
         print(e)
 
 class DQNAgent:
-    MODEL_NAME = "128_256"
+    MODEL_NAME = "128_256v2"
     LEARNING_RATE = 1e-3
     DISCOUNT = 0.99
     REPLAY_MEMORY_SIZE = 50_000
@@ -121,9 +121,6 @@ class CustomTensorBoard(Callback):
         self.step = 1
         self.writer = tf.summary.create_file_writer(log_dir)
 
-    # def on_epoch_end(self, epoch, logs=None):
-    #     self.update_stats(**logs)
-        
     def update_stats(self, **logs):
         with self.writer.as_default():
             for name, value in logs.items():

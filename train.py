@@ -24,16 +24,7 @@ MIN_EPSILON = 1e-3
 SHOW_PREVIEW = True
 SHOW_EVERY = 1
 STATS_EVERY = 50
-MIN_REWARD_FOR_SAVE = 0 
-
-'''
-Can tweak reward for food and punishment for death and moving
-Change the model (256 might be overkill)
-    - 64x128 filters
-    - 128x128 filters
-Episode length and epsilon decay could be tweaked
-Decay epsilon like in the DDPG Keras docs
-'''
+MIN_AVG_REWARD_FOR_SAVE = 200
 
 ep_rewards = []
 step = 0
@@ -84,11 +75,9 @@ for episode in tqdm(range(1, EPISODES + 1), ascii=True, unit="episode"):
         agent.callback.update_stats(reward_avg=average_reward, reward_min=min_reward, reward_max=max_reward, epsilon=epsilon)
 
         # Save model
-        if average_reward >= MIN_REWARD_FOR_SAVE:
+        if average_reward >= MIN_AVG_REWARD_FOR_SAVE:
             agent.model.save(f"models/{agent.MODEL_NAME}{max_reward:_>6.2f}max{average_reward:_>6.2f}avg{min_reward:_>6.2f}min{int(time.time())}.model")
             
-        # logging.info(f"Episode {episode:>5}: Average Reward: {average_reward:>6.2f} Steps Taken: {step}")
-
     # Decay epsilon
     if epsilon > MIN_EPSILON:
         epsilon *= EPSILON_DECAY

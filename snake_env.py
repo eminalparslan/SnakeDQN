@@ -9,7 +9,7 @@ class SnakeEnv:
     # Render screen size
     SCREEN_SIZE = 400
     # Penalty for each move to encourage more efficient paths to food
-    MOVE_PENALTY = -1
+    MOVE_PENALTY = 1
     # Huge penalty for death
     DEATH_PENALTY = 200
     # Reward for eating food (only way to get rewarded)
@@ -103,7 +103,7 @@ class SnakeEnv:
             reward += self.FOOD_REWARD
             # Make sure food doesn't spawn on snake
             # If it does, search linearly until open spot found
-            while (self.ax, self.ay) == (self.hx, self.hy):
+            while (self.ax, self.ay) in self.trail or (self.ax, self.ay) == (self.hx, self.hy):
                 self.ax += 1
                 # Wrap around
                 if self.ax >= self.CELL_COUNT:
